@@ -1,0 +1,6 @@
+*.o
+*~
+test_gl
+log.txt
+GLcontext.sublime-project
+GLcontext.sublime-workspace
