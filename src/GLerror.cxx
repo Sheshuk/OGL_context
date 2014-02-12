@@ -1,5 +1,23 @@
-const char* GetGLErrorDesc(int err){
-  //if(nme && err)printf("%s: err=%d\n",nme,err);
+#include <cstdio>
+#include <GL/gl.h>
+
+#include "GLerror.h"
+int gl_error::get(const char* nme){
+  //get standard GL error. If there is error - throw exception.
+  int err=glGetError();
+  if(err==GL_NO_ERROR)return err;
+  const char* desc=GetGLErrorDesc(err);
+  throw(gl_error(err,nme,desc));
+  // fprintf(stderr,"\033[1;31mGL_ERROR <%s>\033[0m\t",nme);fprintf(stderr,desc);
+  return err;
+}
+//------------------------------------------------------
+void gl_error::Print(){
+    if(name)fprintf(stderr,"\033[1;31mGL_ERROR <%s>\033[0m\t",name);
+    if(what)fprintf(stderr,"%s\n",what);
+};
+//------------------------------------------------------
+const char* gl_error::GetGLErrorDesc(int err){
   switch(err){
     case GL_NO_ERROR: return "no error";
     case GL_INVALID_ENUM:
@@ -18,12 +36,4 @@ const char* GetGLErrorDesc(int err){
       return "GL_STACK_OVERFLOW: An attempt has been made to perform an operation that would cause an internal stack to overflow.\n";
     default: printf("Unknown error#%d\n",err); return "???";
   }
-}
-
-int GetGLError(const char* nme=0){
-  int err=glGetError();
-  if(err==GL_NO_ERROR)return err;
-  const char* desc=GetGLErrorDesc(err);
-  fprintf(stderr,"\033[1;31mGL_ERROR <%s>\033[0m\t",nme);fprintf(stderr,desc);
-  return err;
 }

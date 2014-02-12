@@ -1,4 +1,6 @@
 CFLAGS=-O3 -Wall -std=c++0x `sdl-config --cflags` -D _USE_OPENGL
+# CFLAGS+=-D NCOLOR
+# CFLAGS+=-D NDEBUG
 LIBS=-lSDL -lSDL_image -lSDL_ttf -lGL -lGLU -ljpeg
 INCDIR=include/
 
@@ -12,10 +14,9 @@ CC=g++
 	$(CC) -o $@ $^ $(OBJ) $(LIBS)
 	strip -s $@
 
-all: test_gl test_gl_old
+all: test_gl 
 
-
-test_gl: GLcontext.o
+test_gl: GLcontext.o taylor.o GLshader.o GLerror.o
 
 
 run: test_gl
