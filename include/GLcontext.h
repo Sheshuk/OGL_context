@@ -19,7 +19,9 @@ public:
 private:
 	GLuint h_vao;
 };*/
-	
+
+
+
 class GL_Context{
 	//main context: SDL+OGL
 public:
@@ -42,24 +44,26 @@ public:
 
 	//useful methods
 	void InitScreen (int w, int h, Uint32 flags=0);
-	void SetViewOrto(float x0,float x1,float y0,float y1,float z0,float z1);
-	void SetViewPers(float fovy,float aspect,float near,float far);
+
 	void Init_SDL();
 	void Init_OGL();
 	void Clear_OGL_buf();
-	//verbosity output
-	void SetVerbose(unsigned lev){VLev=lev;}
 	//check if keys are pressed
 	bool IsPressedK(unsigned key){return keysK[key];};
 	bool IsPressedM(unsigned but){return keysM[but];}
 protected:
-	unsigned VLev=0; //verbose output level
+	// screen surface
 	SDL_Surface* screen = 0;
-	int timr;
-	float dt;
+	//state
 	bool running = false;
 	bool keysK[SDLK_LAST]; //pressed keys status
 	bool keysM[4]; //mouse keys status
+	
+	int timr; //timer 
+	float dt; //time passed sice last render (in seconds)
+public:
+	static unsigned Vlev; //verbose output level
+
 };
 
 

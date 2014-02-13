@@ -16,7 +16,7 @@ CC=g++
 
 all: test_gl 
 
-test_gl: GLcontext.o taylor.o GLshader.o GLerror.o
+test_gl: GLcontext.o taylor.o GLshader.o GLcamera.o GLerror.o
 
 
 run: test_gl

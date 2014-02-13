@@ -7,7 +7,7 @@
 #include <GL/glext.h>
 
 #include "NiceLog.h"
-#define _NiceVlev VLev
+#define _NiceVlev GL_Context::Vlev
 #include "GLcontext.h"
 // #include "GLError.h"
 //--------------------------------------------------------
@@ -112,26 +112,7 @@ void GL_Context::InitScreen(int width, int height, Uint32 flags){
 	if(screen==0)throw SDL_GetError( );
 	glViewport(0,0,width,height);
 }
-//--------------------------------------------------------
-void GL_Context::SetViewOrto(float x0,float x1,float y0,float y1,float z0,float z1){
-	_Log(2,"limits={[%4.2f,%4.2f]x[%4.2f,%4.2f]x[%4.2f,%4.2f]}\n",x0,x1,y0,y1,z0,z1);
-	glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(x0,x1,y0,y1,z0,z1);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-
-//--------------------------------------------------------
-void GL_Context::SetViewPers(float fovy,float aspect,float near,float far){
-	_Log(2,"fov=[%4.2f,%4.2f], aspect=%4.2f, clip=[%4.2f - %4.2f]\n",fovy*aspect,fovy,aspect,near,far);
-	glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(fovy,aspect,near,far);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-//--------------------------------------------------------
+//------------------------------------------------------
 void GL_Context::Init_SDL(){	
 	_LogThis(2);
 	if(SDL_Init(SDL_INIT_EVERYTHING)!=0)throw -1;

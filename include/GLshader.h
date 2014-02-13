@@ -1,6 +1,7 @@
 #ifndef GL_SHADER__H
 #define GL_SHADER__H value
 
+#include <glm/glm.hpp>
 #include <set>
 class gl_shader
 {
@@ -38,19 +39,22 @@ class GL_ShaderProgram
 public:
 	GL_ShaderProgram();
 	~GL_ShaderProgram();
+	//manipulate shader list
+	void ListShaders() const;
+	unsigned Nshaders() const{return shaders.size();}
 	void Attach(const gl_shader &s);
 	void Detach(const gl_shader &s);
 	void Link();
+
 	void Use(); //use this program
 static void None(); //use no program (default behaviour)
 	//check status
 	bool is_linked() const;
 	bool is_valid() const;
 	char* get_link_log();
+	
 	void Print() const;
-	//manipulate shader list
-	void ListShaders() const;
-	unsigned Nshaders() const{return shaders.size();}
+	GLint loc(const char* name); //location
 	void operator +=(const gl_shader *s){Attach(*s);}
 	void operator -=(const gl_shader *s){Detach(*s);}
 private:

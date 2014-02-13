@@ -9,8 +9,6 @@
 
 #include "NiceLog.h"
 #define _NiceVlev gl_shader::Vlev
-
-extern unsigned gl_shader::Vlev;
 //----------------------------------------------------
 char* gl_shader::file_to_buf(const char *file)
 /*       Function will read a text file into allocated char buffer       */
@@ -130,9 +128,10 @@ GL_ShaderProgram::~GL_ShaderProgram(){
 //------------------------------------------------------
 void GL_ShaderProgram::Attach(const gl_shader &s){
     shaders.insert(s);
+    _LogCmd(2,s.Print());
     glAttachShader(id,s.Id());
      gl_error::get("Attach shader to program");
-    _Log(1,"Deleted shader program#%d\n",id);  
+    _Log(1,"Attached shader#%d to program#%d\n",s.Id(),id);  
 }
 //------------------------------------------------------
 void GL_ShaderProgram::Detach(const gl_shader &s){
@@ -178,6 +177,13 @@ void GL_ShaderProgram::Print () const{
     else _Red("not linked\t");
     if(is_valid()){_GRN("    valid\n");}
     else _Red("not valid\n");
+}
+//------------------------------------------------------
+GLint GL_ShaderProgram::loc(const char* name){
+    GLint l=glGetUniformLocation(id, name);
+    //if(l==0)throw gl_error(1,"shader program loc: not found",name);
+    gl_error::get("shader program loc");
+    return l;
 }
 //------------------------------------------------------
 void GL_ShaderProgram::Use(){
